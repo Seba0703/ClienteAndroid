@@ -1,0 +1,22 @@
+package com.example.sebastian.copastock.Common;
+
+import android.content.Context;
+import android.content.Intent;
+
+/**
+ * Created by Sebastian on 14/08/2016.
+ */
+public class ActivityStarter {
+    public static void start(Context context, Class<?> newActivity){
+        Intent activity = new Intent(context, newActivity);
+        activity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(activity);
+    }
+
+    public static void startClear(Context context, Class<?> newAct) {
+        Intent activity = new Intent(context, newAct);
+        activity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(activity);
+    }
+
+}
