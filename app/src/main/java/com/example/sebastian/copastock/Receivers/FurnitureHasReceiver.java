@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.sebastian.copastock.Common.ActivityStarter;
 import com.example.sebastian.copastock.Common.Consts;
 import com.example.sebastian.copastock.Dialogs.ConfirmDialog;
 import com.example.sebastian.copastock.Dialogs.FurnitureUpdateDialog;

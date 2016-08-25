@@ -10,6 +10,7 @@ public class Consts {
     public static final String FURNITURE_HAS = "/tieneMueble";
     public static final String FURNITURE = "/muebles";
     public static final String FURNITURE_UPDATE = "/updateMueble";
+    public static final String FURNITURE_NOT_UPDATE = "/notUpdateMueble";
 
     //Request methos
     public static final String GET = "GET";
@@ -29,6 +30,7 @@ public class Consts {
     public static final String FURNITURE_HAS_call = "tieneMueble";
     public static final String FURNITURE_ADD = "agregaMueble";
     public static final String FURNITURE_UPDATE_call = "updateMueble";
+    public static final String FURNITURE_NOT_UPDATE_call = "notUpdateMueble";
 
     //JSON keys
     public static final String USER = "user_id";

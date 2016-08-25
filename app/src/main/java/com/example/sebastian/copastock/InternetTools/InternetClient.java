@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.example.sebastian.copastock.Common.Consts;
 import com.example.sebastian.copastock.Common.SnackBar;
+import com.example.sebastian.copastock.Dialogs.AlertDialog_;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -149,7 +150,7 @@ public class InternetClient {
     }
 
     void show(String message) {
-        SnackBar.show(view, message);
+        AlertDialog_.show(context, "ERROR",message );
     }
 
 

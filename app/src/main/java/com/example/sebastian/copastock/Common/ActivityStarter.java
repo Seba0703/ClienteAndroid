@@ -3,9 +3,6 @@ package com.example.sebastian.copastock.Common;
 import android.content.Context;
 import android.content.Intent;
 
-/**
- * Created by Sebastian on 14/08/2016.
- */
 public class ActivityStarter {
     public static void start(Context context, Class<?> newActivity){
         Intent activity = new Intent(context, newActivity);

@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View v) {
-        String userText = userEdit.getText().toString();
+        String userText = userEdit.getText().toString().toUpperCase().replaceAll("\\s+$", "");
         String passText = passEdit.getText().toString();
 
         if (!userText.isEmpty() && !passText.isEmpty()) {

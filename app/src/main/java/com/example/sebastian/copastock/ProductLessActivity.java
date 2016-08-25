@@ -124,7 +124,6 @@ public class ProductLessActivity extends AppCompatActivity implements Visibility
         } else {
             AlertDialog_.show(this, "ERROR", "Ingrese un nombre de un insumo existente.");
         }
-
     }
 
     @Override

@@ -32,7 +32,7 @@ public class FurnitureUpdateDialog extends DialogFragment {
         builder.setMessage(args.getString(Consts.MSSG));
         LayoutInflater inflater = activity.getLayoutInflater();
         final View view = inflater.inflate(R.layout.furniture_update, null);
-        final RadioGroup rGrpup = (RadioGroup) view.findViewById(R.id.radioGroup2);
+        final RadioGroup rGrpup = (RadioGroup) view.findViewById(R.id.radioGroup);
         final int memberID = args.getInt(Consts.N_MEMBER);
         final int sucID = args.getInt(Consts.N_SUC);
         builder.setView(view).setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
@@ -56,7 +56,7 @@ public class FurnitureUpdateDialog extends DialogFragment {
         }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                FurnitureUpdateDialog.this.getDialog().cancel();
+                dialogInterface.dismiss();
             }
         });
         return builder.create();

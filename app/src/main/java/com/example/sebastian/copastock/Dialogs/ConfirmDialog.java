@@ -36,7 +36,7 @@ public class ConfirmDialog extends DialogFragment {
                 .setNegativeButton(args.getString(Consts.CANCEL), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ConfirmDialog.this.getDialog().cancel();
+                        dialogInterface.dismiss();
                     }
                 });
         return builder.create();
