@@ -3,21 +3,14 @@ package com.example.sebastian.copastock;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.example.sebastian.copastock.Common.ActivityStarter;
 import com.example.sebastian.copastock.Common.Consts;
 import com.example.sebastian.copastock.Common.DisablerButton;
-import com.example.sebastian.copastock.Common.SnackBar;
 import com.example.sebastian.copastock.Dialogs.AlertDialog_;
 import com.example.sebastian.copastock.InternetTools.InternetClient;
 import com.example.sebastian.copastock.Receivers.FurnitureHasReceiver;
@@ -35,6 +28,7 @@ public class FurnatureActivity extends AppCompatActivity {
     private FurnitureHasReceiver furnitureHasR;
     private FurnitureUpdateReceiver furnitureUpdate;
     private FurnitureNotUpdateReceiver notUpdCount;
+    private Button goCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +39,15 @@ public class FurnatureActivity extends AppCompatActivity {
 
         view = findViewById(R.id.furnatureRelative);
 
+        goCount = (Button) findViewById(R.id.button6);
+
         furnitureHasR = new FurnitureHasReceiver(this);
         furnitureUpdate = new FurnitureUpdateReceiver(this);
-        notUpdCount = new FurnitureNotUpdateReceiver(this);
+        notUpdCount = new FurnitureNotUpdateReceiver(this, goCount);
     }
 
     public void goCount(View view) {
-        final Button goCount = (Button) findViewById(R.id.button6);
-        DisablerButton.disable(goCount, 150);
+        goCount.setEnabled(false);
         InternetClient client = new InternetClient(getApplicationContext(), view, Consts.FURNITURE_NOT_UPDATE_call,
                 Consts.FURNITURE_NOT_UPDATE, null, Consts.GET, null, true);
         client.runInBackground();
@@ -60,7 +55,7 @@ public class FurnatureActivity extends AppCompatActivity {
 
     public void goScan(View view) {
         Button goScan = (Button) findViewById(R.id.button9);
-        DisablerButton.disable(goScan, 150);
+        DisablerButton.disable(goScan, 200);
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
         scanIntegrator.initiateScan();
     }
@@ -93,9 +88,11 @@ public class FurnatureActivity extends AppCompatActivity {
         } else {
             if (resultCode == RESULT_OK) {
                 if (intent.getBooleanExtra(Consts.SUCESS, false)) {
-                    AlertDialog_.show(this, "Éxito", "Operación realizada con éxito");
+                    AlertDialog_.show(this, "Éxito", "Bien agregado con éxito.");
+                } else if (intent.getBooleanExtra(Consts.RESULT, false)) {
+                    AlertDialog_.show(this, "ERROR", "No se pudo conectar con el servidor.");
                 } else {
-                    AlertDialog_.show(this, "FALLÓ", "La operación no se pudo realizar.");
+                    AlertDialog_.show(this, "FALLÓ", "No se pudo agregar el bien.");
                 }
             }
         }
@@ -129,4 +126,5 @@ public class FurnatureActivity extends AppCompatActivity {
             return null;
         }
     }
+
 }

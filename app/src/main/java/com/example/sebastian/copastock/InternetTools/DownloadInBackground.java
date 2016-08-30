@@ -1,13 +1,9 @@
 package com.example.sebastian.copastock.InternetTools;
 
 import android.os.AsyncTask;
-import android.widget.Button;
 
 import java.io.IOException;
 
-/**
- * Created by Sebastian on 14/08/2016.
- */
 public class DownloadInBackground extends AsyncTask<String, Void, Integer> {
 
     private InternetClient client;
@@ -24,7 +20,6 @@ public class DownloadInBackground extends AsyncTask<String, Void, Integer> {
             client.connect();
         } catch (IOException e) {
             client.callErrorServer();
-            client.show( "No se pudo conectar a la red.");
             //return -1;
         }
 

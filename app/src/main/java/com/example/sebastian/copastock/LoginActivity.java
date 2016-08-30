@@ -8,12 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.example.sebastian.copastock.Common.Consts;
-import com.example.sebastian.copastock.Common.SnackBar;
 import com.example.sebastian.copastock.Dialogs.AlertDialog_;
 import com.example.sebastian.copastock.InternetTools.InternetClient;
 import com.example.sebastian.copastock.Receivers.LoginReceiver;
@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passEdit;
     private View view;
     private LoginReceiver onLogin;
+    private Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +38,9 @@ public class LoginActivity extends AppCompatActivity {
 
         view = findViewById(R.id.relativeLogin);
 
-        onLogin = new LoginReceiver(this);
+        login = (Button) findViewById(R.id.button);
 
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(onLogin,
-                new IntentFilter(Consts.LOGIN_call));
+        onLogin = new LoginReceiver(this, login);
 
         userEdit = (EditText) findViewById(R.id.editText);
         passEdit = (EditText) findViewById(R.id.editText2);
@@ -55,10 +55,21 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(onLogin,
+                new IntentFilter(Consts.LOGIN_call));
+    }
+
+    public void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(onLogin);
     }
 
     public void login(View v) {
+        login.setEnabled(false);
         String userText = userEdit.getText().toString().toUpperCase().replaceAll("\\s+$", "");
         String passText = passEdit.getText().toString();
 

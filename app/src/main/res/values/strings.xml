@@ -4,6 +4,6 @@
     <string name="title_activity_login">Ingreso</string>
     <string name="title_activity_choose_model">Selección</string>
     <string name="title_activity_product_less">Retiros de productos</string>
-    <string name="title_activity_furnature">FurnatureActivity</string>
-    <string name="title_activity_furniture_info">FurnitureInfoActivity</string>
+    <string name="title_activity_furnature">Bienes</string>
+    <string name="title_activity_furniture_info">Completar</string>
 </resources>

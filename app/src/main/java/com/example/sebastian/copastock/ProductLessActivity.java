@@ -1,12 +1,10 @@
 package com.example.sebastian.copastock;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.BoolRes;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +13,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -25,14 +22,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.sebastian.copastock.Common.Consts;
-import com.example.sebastian.copastock.Common.SnackBar;
 import com.example.sebastian.copastock.Dialogs.AlertDialog_;
 import com.example.sebastian.copastock.Dialogs.ConfirmDialog;
 import com.example.sebastian.copastock.InternetTools.InternetClient;
-import com.example.sebastian.copastock.Receivers.LoginReceiver;
 import com.example.sebastian.copastock.Receivers.ProductExtractReceiver;
 import com.example.sebastian.copastock.Receivers.ProductNameReceiver;
 import com.example.sebastian.copastock.Receivers.ProductNameStatusReceiver;
+import com.example.sebastian.copastock.Receivers.ProductStatusReceiver;
 import com.example.sebastian.copastock.Singleton.UserSingleton;
 
 import org.json.JSONException;
@@ -40,7 +36,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProductLessActivity extends AppCompatActivity implements VisibilitySetter, OnClickDialog{
 
@@ -56,6 +51,10 @@ public class ProductLessActivity extends AppCompatActivity implements Visibility
     private TextView destinyLabel;
     private Button searchBtn;
     private TextView count;
+    private ProductExtractReceiver onProdExtract;
+    private ProductNameReceiver onProdsName;
+    private ProductNameStatusReceiver onProdStatus;
+    private ProductStatusReceiver onProdExtrStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,19 +71,16 @@ public class ProductLessActivity extends AppCompatActivity implements Visibility
         lessBtn = (Button) findViewById(R.id.button5);
 
         // recibo los nombres de los productos
-        ProductNameReceiver onProductsName = new ProductNameReceiver(this, auto, names);
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(onProductsName,
-                new IntentFilter(Consts.PROD_NAME));
+        onProdsName = new ProductNameReceiver(this, auto, names);
 
         // de un producto en particular recibo la cantidad y su estado ROJO, NARAJA, BLANCO
-        ProductNameStatusReceiver onProdStatus = new ProductNameStatusReceiver(view, this, searchBtn);
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(onProdStatus,
-                new IntentFilter(Consts.PROD_STATUS_call));
+        onProdStatus = new ProductNameStatusReceiver(view, this, searchBtn);
 
         //recibo la confirmacion de que se saco correctamente el producto
-        ProductExtractReceiver onProductExtract = new ProductExtractReceiver(this, lessBtn);
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(onProductExtract,
-                new IntentFilter(Consts.PROD_EXTRACT));
+        onProdExtract = new ProductExtractReceiver(this, lessBtn);
+
+        //luego de retirado las cantidad del producto, se pide el estado del mismo
+        onProdExtrStatus = new ProductStatusReceiver(this);
 
         //Descargo nombres de la base de datos
         InternetClient client = new InternetClient(getApplicationContext(), view, Consts.PROD_NAME, Consts.MAT_MATERIALS_ID,
@@ -171,6 +167,26 @@ public class ProductLessActivity extends AppCompatActivity implements Visibility
         count.setText("");
     }
 
+    public void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(onProdsName,
+                new IntentFilter(Consts.PROD_NAME));
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(onProdStatus,
+                new IntentFilter(Consts.PROD_STATUS_call));
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(onProdExtrStatus,
+                new IntentFilter(Consts.PROD_STATUS_call_after));
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(onProdExtract,
+                new IntentFilter(Consts.PROD_EXTRACT));
+    }
+
+    public void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(onProdsName);
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(onProdStatus);
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(onProdExtrStatus);
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(onProdExtract);
+    }
+
     public void extract(View v) {
         boolean badInput;
         String quantityS = countEdit.getText().toString();
@@ -211,6 +227,7 @@ public class ProductLessActivity extends AppCompatActivity implements Visibility
         try {
             int lessQuantity = Integer.parseInt(countEdit.getText().toString());
             JSONObject jsonRq = new JSONObject();
+            onProdExtract.setMaterialID(nameSearched);
             jsonRq.put(Consts.MATERIALS_ID, nameSearched);
             jsonRq.put(Consts.QUANTITY, lessQuantity);
             jsonRq.put(Consts.USER, UserSingleton.getInstance().getUserName());

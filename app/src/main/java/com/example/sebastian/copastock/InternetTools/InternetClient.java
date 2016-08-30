@@ -7,11 +7,8 @@ import android.net.NetworkInfo;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.example.sebastian.copastock.Common.Consts;
-import com.example.sebastian.copastock.Common.SnackBar;
-import com.example.sebastian.copastock.Dialogs.AlertDialog_;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,7 +46,7 @@ public class InternetClient {
         this.context = context;
         this.view = view;
         this.toCall = toCall;
-        nURL = "http://192.168.0.16:4567" + path;
+        nURL = "http://192.168.0.11:4567" + path;
         requestMethod = rMethod;
         jsonBody = jBody;
         headers = headerM;
@@ -145,18 +142,14 @@ public class InternetClient {
             new DownloadInBackground(this).execute();
         } else {
             callErrorServer();
-            show("No hay conexión de red disponible.");
+
         }
     }
-
-    void show(String message) {
-        AlertDialog_.show(context, "ERROR",message );
-    }
-
 
     public void callErrorServer() {
         Intent activityMsg = new Intent(toCall);
         activityMsg.putExtra(Consts.SUCESS, false);
+        activityMsg.putExtra(Consts.RESULT, true); // error de server
         LocalBroadcastManager.getInstance(context).sendBroadcast(activityMsg);
     }
 }

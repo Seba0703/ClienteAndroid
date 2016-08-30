@@ -18,9 +18,11 @@ public class FurnitureUpdateReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getBooleanExtra(Consts.SUCESS, false)) {
-            AlertDialog_.show(activity, "Éxito", "Operación realizada con éxito");
-        } else {
-            AlertDialog_.show(activity, "FALLÓ", "La operación no se pudo realizar.");
+            AlertDialog_.show(activity, "Éxito", "Actualización realizada con éxito");
+        } else if (intent.getBooleanExtra(Consts.RESULT, false)) {
+            AlertDialog_.show(activity, "ERROR", "No se pudo conectar con el servidor.");
+        } else  {
+            AlertDialog_.show(activity, "FALLÓ", "No se pudo actualizar el bien.");
         }
     }
 }

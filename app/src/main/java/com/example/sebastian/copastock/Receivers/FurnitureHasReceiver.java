@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.sebastian.copastock.Common.Consts;
+import com.example.sebastian.copastock.Dialogs.AlertDialog_;
 import com.example.sebastian.copastock.Dialogs.ConfirmDialog;
 import com.example.sebastian.copastock.Dialogs.FurnitureUpdateDialog;
 import com.example.sebastian.copastock.FurnitureInfoActivity;
@@ -49,23 +50,24 @@ public class FurnitureHasReceiver extends BroadcastReceiver implements OnClickDi
                 has_Furniture = result.getBoolean(Consts.HAS_FURNITURE);
 
                 if (has_Furniture) {
-                    String areSure = "¿Desea actualizar el estado del objeto número ";
+                    String areSure = "¿Desea actualizar el estado del bien número ";
                     text = areSure + memberN + "?";
 
                 } else {
-                    String areSure = "¿Desea agregar un nuevo objeto con número ";
+                    String areSure = "¿Desea agregar un nuevo bien con número ";
                     text = areSure + memberN + " al sistema?";
                 }
 
                 args.putString(Consts.MSSG, text);
                 dialog.onCreateDialog(args).show();
             } catch (JSONException e) {
-                e.printStackTrace();
+                AlertDialog_.show(activity, "FALLÓ", "La operación no se pudo realizar.");
             }
+        } else if (intent.getBooleanExtra(Consts.RESULT, false)) {
+            AlertDialog_.show(activity, "ERROR", "No se pudo conectar con el servidor.");
         } else {
-
+            AlertDialog_.show(activity, "FALLÓ", "No se pudo saber si se tiene ese bien en la base de datos.");
         }
-
     }
 
     @Override
@@ -76,7 +78,7 @@ public class FurnitureHasReceiver extends BroadcastReceiver implements OnClickDi
             Bundle args = new Bundle();
             args.putInt(Consts.N_MEMBER, memberN);
             args.putInt(Consts.N_SUC, sucN);
-            args.putString(Consts.MSSG, "¿Cómo se encuentra actualmente el objeto?");
+            args.putString(Consts.MSSG, "¿Cómo se encuentra actualmente el bien número " + memberN + "?");
             infoDialog.onCreateDialog(args).show();
         }else {
             Intent furnitureInfo = new Intent(activity, FurnitureInfoActivity.class);

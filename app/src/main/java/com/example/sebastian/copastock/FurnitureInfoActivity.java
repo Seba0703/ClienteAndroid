@@ -1,23 +1,17 @@
 package com.example.sebastian.copastock;
 
 import android.content.IntentFilter;
-import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.sebastian.copastock.Common.Consts;
-import com.example.sebastian.copastock.Common.SnackBar;
 import com.example.sebastian.copastock.Dialogs.AlertDialog_;
 import com.example.sebastian.copastock.Dialogs.DatePickerDialog;
 import com.example.sebastian.copastock.InternetTools.InternetClient;
@@ -36,6 +30,7 @@ public class FurnitureInfoActivity extends AppCompatActivity {
     private int sucN;
     private int memberN;
     private View view;
+    private SendFurnitureInfoReceiver sendInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +47,18 @@ public class FurnitureInfoActivity extends AppCompatActivity {
         selection = (RadioGroup) findViewById(R.id.radioGroup2);
         view = findViewById(R.id.infoRelative);
 
-        SendFurnitureInfoReceiver sendInfo = new SendFurnitureInfoReceiver(this);
+        sendInfo = new SendFurnitureInfoReceiver(this);
+    }
+
+    public void onStart() {
+        super.onStart();
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(sendInfo,
                 new IntentFilter(Consts.FURNITURE_ADD));
+    }
+
+    public void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(sendInfo);
     }
 
     public void goCalendar(View view) {
@@ -70,7 +74,7 @@ public class FurnitureInfoActivity extends AppCompatActivity {
 
     public void sendInfo(View view) {
         int rdBtnID = selection.getCheckedRadioButtonId();
-        Double priceD = 0.;
+        double priceD = 0d;
         boolean badPrice;
         if (!price.getText().toString().isEmpty()) {
             try {

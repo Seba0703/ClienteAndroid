@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import com.example.sebastian.copastock.Common.Consts;
-import com.example.sebastian.copastock.Common.SnackBar;
 import com.example.sebastian.copastock.Dialogs.AlertDialog_;
 import com.example.sebastian.copastock.R;
 
@@ -50,8 +48,10 @@ public class ProductNameReceiver extends BroadcastReceiver{
                 e.printStackTrace();
                 AlertDialog_.show(activity, "ERROR", "Problemas con el servidor.");
             }
+        } else if (intent.getBooleanExtra(Consts.RESULT, false)) {
+            AlertDialog_.show(activity, "ERROR", "No se pudo conectar con el servidor.");
         } else {
-            AlertDialog_.show(activity, "ERROR", "Problemas con la red.");
+            AlertDialog_.show(activity, "ERROR", "No se pudo obtener los nombres de los insumos.");
         }
     }
 }

@@ -19,7 +19,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="¡Bienvenido!"
         android:id="@+id/textView"
-        android:layout_marginTop="30dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -32,9 +31,9 @@
         android:ems="10"
         android:singleLine="true"
         android:id="@+id/editText"
+        android:layout_marginTop="25dp"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp" />
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"

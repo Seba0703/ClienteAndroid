@@ -12,7 +12,7 @@ public class Consts {
     public static final String FURNITURE_UPDATE = "/updateMueble";
     public static final String FURNITURE_NOT_UPDATE = "/notUpdateMueble";
 
-    //Request methos
+    //Request methods
     public static final String GET = "GET";
     public static final String POST = "POST";
     public static final String PUT = "PUT";
@@ -26,6 +26,7 @@ public class Consts {
     public static final String LOGIN_call = "login";
     public static final String PROD_NAME = "nameProd";
     public static final String PROD_STATUS_call = "statusProd";
+    public static final String PROD_STATUS_call_after = "afterStatusProd";
     public static final String PROD_EXTRACT = "extractProd";
     public static final String FURNITURE_HAS_call = "tieneMueble";
     public static final String FURNITURE_ADD = "agregaMueble";
@@ -52,7 +53,7 @@ public class Consts {
     public final static int STATE_REGULAR = 2;
     public final static int STATE_BAD = 1;
     public final static int STATE_OUT = 0;
-    public final static String BUY_DATE = "fechaCOmpra";
+    public final static String BUY_DATE = "fechaCompra";
     public final static String FINAL_PRICE = "precioFinal";     //precio + IVA
     public final static String HAS_FURNITURE = "tieneMueble";
     public static final String LAST_UPDATE = "lastUpdate";
