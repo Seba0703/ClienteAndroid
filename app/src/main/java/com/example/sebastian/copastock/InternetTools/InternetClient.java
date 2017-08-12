@@ -46,7 +46,7 @@ public class InternetClient {
         this.context = context;
         this.view = view;
         this.toCall = toCall;
-        nURL = "http://192.168.0.11:4567" + path;
+        nURL = "http://192.168.0.17:4567" + path;
         requestMethod = rMethod;
         jsonBody = jBody;
         headers = headerM;
