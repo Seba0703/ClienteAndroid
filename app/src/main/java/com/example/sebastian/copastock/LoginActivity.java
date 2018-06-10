@@ -13,7 +13,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.example.sebastian.copastock.Common.ActivityStarter;
 import com.example.sebastian.copastock.Common.Consts;
+import com.example.sebastian.copastock.Common.DisablerButton;
 import com.example.sebastian.copastock.Dialogs.AlertDialog_;
 import com.example.sebastian.copastock.InternetTools.InternetClient;
 import com.example.sebastian.copastock.Receivers.LoginReceiver;
@@ -84,5 +86,11 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             AlertDialog_.show(this, "ERROR", "Ingrese usuario y contraseña por favor.");
         }
+    }
+
+    public void goConfig(View view) {
+        Button goConfig = (Button) findViewById(R.id.button4);
+        DisablerButton.disable(goConfig, 250);
+        ActivityStarter.start(getApplicationContext(), ConfigActivity.class);
     }
 }

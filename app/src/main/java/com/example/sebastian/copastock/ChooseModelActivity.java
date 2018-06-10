@@ -31,5 +31,4 @@ public class ChooseModelActivity extends AppCompatActivity {
         DisablerButton.disable(goMuebles, 250);
         ActivityStarter.start(getApplicationContext(), FurnatureActivity.class);
     }
-
 }

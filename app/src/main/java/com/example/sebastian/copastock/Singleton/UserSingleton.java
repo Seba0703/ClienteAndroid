@@ -1,12 +1,12 @@
 package com.example.sebastian.copastock.Singleton;
 
-/**
- * Created by Sebastian on 15/08/2016.
- */
+
 public class UserSingleton {
 
     private static UserSingleton instance = null;
     private String userName = null;
+    private String url = null;
+
 
     protected  UserSingleton(){}
 
@@ -25,6 +25,14 @@ public class UserSingleton {
 
     public String getUserName() {
         return userName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String newUrl) {
+        this.url = newUrl;
     }
 
 

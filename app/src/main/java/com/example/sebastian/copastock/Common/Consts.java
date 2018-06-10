@@ -2,6 +2,10 @@ package com.example.sebastian.copastock.Common;
 
 public class Consts {
 
+    //URL
+    public static final String URL = "url";
+
+
     //Server paths
     public static final String LOGIN = "/login";
     public final static String MAT_MATERIALS_ID = "/mat_matID";

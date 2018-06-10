@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.sebastian.copastock.Common.Consts;
+import com.example.sebastian.copastock.Singleton.UserSingleton;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class InternetClient {
         this.context = context;
         this.view = view;
         this.toCall = toCall;
-        nURL = "http://192.168.0.17:4567" + path;
+        nURL = UserSingleton.getInstance().getUrl() + path;
         requestMethod = rMethod;
         jsonBody = jBody;
         headers = headerM;
